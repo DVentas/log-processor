@@ -1,0 +1,18 @@
+{
+  "name": "hostnames-by-time",
+  "config": {
+    "tasks.max": 1,
+    "connector.class": "com.github.jcustenborder.kafka.connect.spooldir.SpoolDirCsvSourceConnector",
+    "input.file.pattern": "^.*\\.txt$",
+    "input.path": "/tmp/inputs/hostnameByTime/in/",
+    "error.path": "/tmp/inputs/hostnameByTime/errors/",
+    "halt.on.error": "false",
+    "topic": "hostname-connections-by-time",
+    "key.schema": "{\"name\":\"com.dvl.logParser.avro.Key\",\"type\":\"STRUCT\",\"isOptional\":true,\"fieldSchemas\":{\"id\":{\"type\":\"INT64\",\"isOptional\":true}}}",
+    "value.schema": "{\"name\" : \"com.dvl.logParser.avro.HostnameByTime\",\"type\" : \"STRUCT\",\"isOptional\" : false, \"fieldSchemas\" : {\"initDatetime\" : {\"type\" : \"INT64\",\"isOptional\" : false}, \"endDatetime\" : {\"type\" : \"INT64\",\"isOptional\" : false}, \"hostname\" : {\"type\" : \"STRING\",\"isOptional\" : false}}}",
+    "csv.first.row.as.header": "false",
+    "csv.separator.char": "32",
+    "cleanup.policy": "NONE",
+    "kafka.compression.type": "gzip"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "hdfs-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.hdfs.HdfsSinkConnector",
+    "tasks.max": "1",
+    "topics": "input-log-avro",
+    "hdfs.url": "hdfs://hadoop:9000/data/input-log/",
+    "flush.size": "500",
+    "partitioner.class" : "io.confluent.connect.storage.partitioner.TimeBasedPartitioner",
+    "timestamp.field" : "time",
+    "timestamp.extractor" : "RecordField",
+    "format.class" : "io.confluent.connect.hdfs.parquet.ParquetFormat",
+    "path.format": "'date'=YYYY-MM-dd-HH",
+    "partition.duration.ms": "3600000",
+    "locale" : "es_ES",
+    "timezone" : "UTC"
+  }
+}

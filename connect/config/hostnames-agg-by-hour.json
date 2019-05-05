@@ -1,0 +1,18 @@
+{
+  "name": "hostnames-agg-by-hour",
+  "config": {
+    "tasks.max": 1,
+    "connector.class": "com.github.jcustenborder.kafka.connect.spooldir.SpoolDirCsvSourceConnector",
+    "input.file.pattern": "^.*\\.txt$",
+    "input.path": "/tmp/inputs/hostnameAggByHour/in/",
+    "error.path": "/tmp/inputs/hostnameAggByHour/errors/",
+    "halt.on.error": "false",
+    "topic": "hostname-aggregations-by-hour",
+    "key.schema": "{\"name\":\"com.dvl.logParser.avro.Key\",\"type\":\"STRUCT\",\"isOptional\":true,\"fieldSchemas\":{\"id\":{\"type\":\"INT64\",\"isOptional\":true}}}",
+    "value.schema": "{\"name\" : \"com.dvl.logParser.avro.HostnameAggByHour\",\"type\" : \"STRUCT\",\"isOptional\" : false, \"fieldSchemas\" : {\"hostname\" : {\"type\" : \"STRING\",\"isOptional\" : false}}}",
+    "csv.first.row.as.header": "false",
+    "csv.separator.char": "32",
+    "cleanup.policy": "NONE",
+    "kafka.compression.type": "gzip"
+  }
+}

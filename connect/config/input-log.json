@@ -1,0 +1,19 @@
+{
+  "name": "input-log",
+  "config": {
+    "tasks.max": 1,
+    "connector.class": "com.github.jcustenborder.kafka.connect.spooldir.SpoolDirCsvSourceConnector",
+    "input.file.pattern": "^.*\\.txt$",
+    "input.path": "/tmp/inputs/logs/in/",
+    "error.path": "/tmp/inputs/logs/errors/",
+    "batch.size": 10000,
+    "halt.on.error": "false",
+    "topic": "input-log-avro",
+    "key.schema": "{\"name\":\"com.dvl.logParser.avro.Key\",\"type\":\"STRUCT\",\"isOptional\":true,\"fieldSchemas\":{\"id\":{\"type\":\"INT64\",\"isOptional\":true}}}",
+    "value.schema": "{\"name\" : \"com.dvl.logParser.avro.InputLog\",\"type\" : \"STRUCT\",\"isOptional\" : false, \"fieldSchemas\" : {\"time\" : {\"type\" : \"INT64\",\"isOptional\" : false}, \"source\" : {\"type\" : \"STRING\",\"isOptional\" : false},\"dest\" : {\"type\" : \"STRING\",\"isOptional\" : false}}}",
+    "csv.first.row.as.header": "false",
+    "csv.separator.char": "32",
+    "cleanup.policy": "NONE",
+    "kafka.compression.type": "gzip"
+  }
+}
