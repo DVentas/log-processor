@@ -1,0 +1,3 @@
+# flush size hdfs connects too low for block size hdfs
+# Check inputs for bad events and redirect for other topic (would be other connect from errors folder)
+# Do all pieces configurable

@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+
+function bootstrap() {
+    docker run --name bootstrap \
+      -w /code \
+      -v $SCRIPT_DIR/code:/code \
+      -v $SCRIPT_DIR/.bootstrap:/bootstrap \
+      maven:3.5-jdk-8-slim bash -c "./entrypoint.sh";
+
+      docker rm -f bootstrap
+}
+
+function run() {
+
+    docker run --name bootstrap-compose-init \
+           -e DOCKER_WS=$SCRIPT_DIR \
+           -e COMPOSE_HTTP_TIMEOUT=200 \
+           -v ${SCRIPT_DIR}/docker-compose.yml:/tmp/bootstrap/docker-compose.yml:ro \
+           -v ${SCRIPT_DIR}/connect:/tmp/bootstrap/connect:ro \
+           -v /var/run/docker.sock:/var/run/docker.sock \
+           -w /tmp/bootstrap \
+           -d docker/compose:1.24.0 up
+}
+
+function docker_healthy(){
+  pchar='/-\|'
+
+  for service in "$@"; do
+     echo -e -n "\033[36mWaiting for healthy status of $service service\033[0m   "
+     until [ "$(docker ps --filter "name=$service" --filter "health=healthy" --format "{{.Names}}")" == "$service" ]; do
+       printf "\033[36m\b%.1s\033[0m" "$pchar"
+       pchar=${pchar#?}${pchar%???}
+       sleep 1
+     done
+     printf "\033[32m\b%.6s\n\033[0m" "[ OK ]"
+  done
+}
+
+function register_schemas() {
+    docker exec -t schema-registry /tmp/schema/schema-setup.sh
+}
+
+function start_connects() {
+    docker exec -t connect bash connect-start-connects.sh
+}
+
+function logs(){
+  docker exec -i bootstrap-compose-init /bin/sh -c "docker-compose logs -f --tail '200'"
+}
+
+function stop() {
+    docker exec -i bootstrap-compose-init /bin/sh -c "docker-compose down -v --rmi local"
+    docker stop bootstrap-compose-init
+    docker rm -f bootstrap-compose-init
+    find . -name "*.PROCESSING" -exec rm {} \;
+    find ./.bootstrap/ -name "*.jar" -exec rm {} \;
+}
+
+function start_processes() {
+    docker exec -d kafka-stream sh -c "java -cp /tmp/kafka/kafka-code.jar com.dvl.logParser.HostnamesAggByHour"
+    docker exec -d spark-master /tmp/spark/spark-setup.sh
+}
+
+function tests() {
+    docker run --name tests \
+      --network bootstrap_proxynet \
+      -w /tests \
+      -v $SCRIPT_DIR/test-at:/tests:rw \
+      maven:3.5-jdk-8-slim bash -c "mvn clean compile -q && mvn test";
+
+    docker rm -f tests
+}
+
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# Main options
+for i in "$@"; do
+  case "$i" in
+    bootstrap)
+          bootstrap
+          ;;
+    run)
+          run
+          docker_healthy schema-registry connect
+          register_schemas
+          ;;
+    start_connects)
+          start_connects
+          ;;
+    start_processes)
+          start_processes
+          ;;
+    init_env)
+          bootstrap
+          run
+          docker_healthy schema-registry connect
+          register_schemas
+          start_connects
+          ;;
+    tests)
+          tests
+          ;;
+    logs)
+          logs
+          ;;
+    stop)
+          stop
+          ;;
+    *)
+          echo "Usage: $0 {bootstrap|run|start_connects|start_processes|init_env|tests|logs|stop}"
+          exit 1
+  esac
+done
