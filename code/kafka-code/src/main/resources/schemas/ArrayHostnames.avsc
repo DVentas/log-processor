@@ -1,0 +1,14 @@
+{
+	"namespace": "com.dvl.logParser.avro",
+	"type": "record",
+	"name": "ArrayHostnames",
+	"fields": [
+		{
+            "name": "hostReceived",
+            "type": {
+                  "type": "array",
+                  "items": "string"
+               }
+        }
+	]
+}

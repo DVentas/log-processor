@@ -1,0 +1,47 @@
+[
+    {
+        "namespace": "com.dvl.logParser.avro",
+        "type": "record",
+        "name": "HostnameCount",
+        "fields": [
+            {
+                "name": "hostname",
+                "type": "string"
+            },
+            {
+                "name": "count",
+                "type": "long"
+            }
+
+        ]
+    },
+    {
+        "namespace": "com.dvl.logParser.avro",
+        "type": "record",
+        "name": "HostnameAggByHourResult",
+        "fields": [
+            {
+                "name": "hostnameRequest",
+                "type": "string"
+            },
+            {
+                "name": "hostConnected",
+                "type": {
+                      "type": "array",
+                      "items": "string"
+                   }
+            },
+            {
+                "name": "hostReceived",
+                "type": {
+                      "type": "array",
+                      "items": "string"
+                   }
+            },
+            {
+                "name": "hostWithMostConnections",
+                "type": "HostnameCount"
+            }
+        ]
+    }
+]

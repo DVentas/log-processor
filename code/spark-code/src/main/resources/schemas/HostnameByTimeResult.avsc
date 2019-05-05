@@ -1,0 +1,13 @@
+{
+	"namespace": "com.dvl.logParser.avro",
+	"type": "record",
+	"name": "HostnameByTimeResult",
+	"fields": [{
+			"name": "hostconnected",
+			"type": {
+                  "type": "array",
+                  "items": "string"
+               }
+		}
+	]
+}

@@ -1,0 +1,18 @@
+{
+	"namespace": "com.dvl.logParser.avro",
+	"type": "record",
+	"name": "InputLog",
+	"fields": [{
+			"name": "time",
+			"type": "long"
+		},
+		{
+			"name": "source",
+			"type": "string"
+		},
+		{
+			"name": "dest",
+			"type": "string"
+		}
+	]
+}

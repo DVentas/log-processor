@@ -1,0 +1,11 @@
+{
+	"namespace": "com.dvl.logParser.avro",
+	"type": "record",
+	"name": "HostnameAggByHour",
+	"fields": [
+		{
+			"name": "hostname",
+			"type": "string"
+		}
+	]
+}

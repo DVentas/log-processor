@@ -1,0 +1,18 @@
+{
+	"namespace": "com.dvl.logParser.avro",
+	"type": "record",
+	"name": "HostnameByTime",
+	"fields": [{
+			"name": "initDatetime",
+			"type": "long"
+		},
+		{
+			"name": "endDatetime",
+			"type": "long"
+		},
+		{
+			"name": "hostname",
+			"type": "string"
+		}
+	]
+}
