@@ -1,0 +1,20 @@
+{
+    "schema": "{
+        \"namespace\": \"com.dvl.logParser.avro\",
+        \"name\": \"InputLog\",
+        \"type\": \"record\",
+        \"fields\": [{
+                \"name\": \"time\",
+                \"type\": \"long\"
+            },
+            {
+                \"name\": \"source\",
+                \"type\": \"string\"
+            },
+            {
+                \"name\": \"dest\",
+                \"type\": \"string\"
+            }
+        ]
+    }"
+}

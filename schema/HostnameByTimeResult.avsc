@@ -1,0 +1,14 @@
+{
+    "schema": "{
+        \"name\": \"com.dvl.logParser.avro.HostnameByTimeResult\",
+        \"type\": \"record\",
+        \"fields\": [{
+                \"name\": \"hostconnected\",
+                \"type\": {
+                     \"type\": \"array\",
+                     \"items\": \"string\"
+                }
+            }
+        ]
+    }"
+}

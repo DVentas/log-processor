@@ -1,0 +1,19 @@
+{
+    "schema": "{
+        \"name\": \"com.dvl.logParser.avro.HostnameByTime\",
+        \"type\": \"record\",
+        \"fields\": [{
+                \"name\": \"initDatetime\",
+                \"type\": \"long\"
+            },
+            {
+                \"name\": \"endDatetime\",
+                \"type\": \"long\"
+            },
+            {
+                \"name\": \"hostname\",
+                \"type\": \"string\"
+            }
+        ]
+    }"
+}

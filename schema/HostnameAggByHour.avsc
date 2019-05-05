@@ -1,0 +1,10 @@
+{
+    "schema": "{
+        \"name\": \"com.dvl.logParser.avro.HostnameAggByHour\",
+        \"type\": \"record\",
+        \"fields\": [{
+            \"name\": \"hostname\",
+            \"type\": \"string\"
+        }]
+    }"
+}
